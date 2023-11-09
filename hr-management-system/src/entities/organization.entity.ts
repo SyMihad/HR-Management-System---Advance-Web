@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne } from "typeorm";
+import { UserOrganizationTable } from "./userOrganizationTable.entity";
 
 @Entity('Organizations')
 export class Organization{
@@ -14,4 +15,7 @@ export class Organization{
     @Column({nullable:false})
     Password: string;
 
+
+    @OneToOne(()=> UserOrganizationTable, userOrganizationTable => userOrganizationTable.organization)
+    userOrganizationTable: UserOrganizationTable;
 }

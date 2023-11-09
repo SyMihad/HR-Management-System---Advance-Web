@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "./user.entity";
+import { SecureDocument } from "./secureDocument.entity";
 
 @Entity('DocumentTrack')
 export class DocumentTrack{
@@ -10,5 +12,13 @@ export class DocumentTrack{
 
     @Column({nullable:false})
     UserID: number;
+
+    @ManyToOne(()=> User, user => user.documentTracks)
+    @JoinColumn({ name: "UserID"})
+    user : User;
+
+    @ManyToOne(()=> SecureDocument, secureDocument => secureDocument.documentTracks)
+    @JoinColumn({ name: "DocID"})
+    secureDocument : SecureDocument;
 
 }

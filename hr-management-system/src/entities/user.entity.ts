@@ -1,4 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, OneToMany } from "typeorm";
+import { Authorization } from "./authorization.entity";
+import { DocumentTrack } from "./documentTrack.entity";
+import { UserJobTable } from "./userJobTable.entity";
+import { UserOrganizationTable } from "./userOrganizationTable.entity";
 
 @Entity('Users')
 export class User{
@@ -22,5 +26,17 @@ export class User{
 
     @Column({nullable:false})
     Password: string;
+
+    @OneToOne(()=> Authorization, authorization => authorization.user)
+    authorization: Authorization;
+
+    @OneToMany(()=> DocumentTrack, documentTrack => documentTrack.user)
+    documentTracks: DocumentTrack[];
+
+    @OneToOne(()=> UserJobTable, userJobTable => userJobTable.user)
+    userJobTable: UserJobTable;
+
+    @OneToOne(()=> UserOrganizationTable, userOrganizationTable => userOrganizationTable.user)
+    userOrganizationTable: UserOrganizationTable;
 
 }

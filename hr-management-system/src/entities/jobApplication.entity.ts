@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
+import { JobCategories } from "./jobCategories.entity";
 
 @Entity('JobApplications')
 export class JobApplication{
@@ -25,5 +26,9 @@ export class JobApplication{
 
     @Column({nullable:false})
     Status: string;
+
+    @OneToOne(()=> JobCategories, jobCategories => jobCategories.jobApplication)
+    @JoinColumn({ name: "JobID" })
+    jobCategories: JobCategories;
 
 }

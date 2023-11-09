@@ -1,5 +1,5 @@
 import { Authorization } from "src/entities/authorization.entity";
-import { DocumentTrack } from "src/entities/documenttrack.entity";
+import { DocumentTrack } from "src/entities/documentTrack.entity";
 import { JobApplication } from "src/entities/jobApplication.entity";
 import { JobCategories } from "src/entities/jobCategories.entity";
 import { JobRequirments } from "src/entities/jobRequirments.entity";

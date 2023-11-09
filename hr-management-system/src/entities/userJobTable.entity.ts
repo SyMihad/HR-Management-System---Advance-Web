@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
+import { User } from "./user.entity";
+import { JobCategories } from "./jobCategories.entity";
 
 @Entity('UserJobTable')
 export class UserJobTable{
@@ -10,5 +12,13 @@ export class UserJobTable{
 
     @Column({nullable:false})
     JobID: number;
+
+    @OneToOne(()=> User, user => user.userJobTable)
+    @JoinColumn({ name: "UserID" })
+    user: User;
+
+    @OneToOne(()=> JobCategories, jobCategories => jobCategories.userJobTable)
+    @JoinColumn({ name: "JobID" })
+    jobCategories: JobCategories;
 
 }

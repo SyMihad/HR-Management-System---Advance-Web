@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from "typeorm";
+import { User } from "./user.entity";
 
 @Entity('Authorizations')
 export class Authorization{
@@ -10,5 +11,9 @@ export class Authorization{
 
     @Column({nullable:false})
     role: string;
+
+    @OneToOne(()=> User, user => user.authorization)
+    @JoinColumn({ name: 'userID' })
+    user: User;
 
 }

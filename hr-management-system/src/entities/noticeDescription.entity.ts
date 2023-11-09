@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne } from "typeorm";
+import { NoticeTrack } from "./noticeTrack.entity";
 
 @Entity('NoticeDescription')
 export class NoticeDescription{
@@ -10,5 +11,8 @@ export class NoticeDescription{
 
     @Column({nullable:false})
     Description: string;
+
+    @OneToOne(()=> NoticeTrack, noticeTrack => noticeTrack.noticeDescription)
+    noticeTrack: NoticeTrack;
 
 }

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { DocumentTrack } from "./documentTrack.entity";
 
 @Entity('SecureDocuments')
 export class SecureDocument{
@@ -13,5 +14,8 @@ export class SecureDocument{
 
     @Column({nullable:false})
     HashKey: string;
+
+    @OneToMany(()=> DocumentTrack, documentTrack => documentTrack.secureDocument)
+    documentTracks: DocumentTrack[];
 
 }
