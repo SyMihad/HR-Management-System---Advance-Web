@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToOne, OneToMany } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, OneToMany, JoinColumn } from "typeorm";
 import { Authorization } from "./authorization.entity";
 import { DocumentTrack } from "./documentTrack.entity";
 import { UserJobTable } from "./userJobTable.entity";

@@ -6,14 +6,13 @@ export class Authorization{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({nullable:false})
-    userID: number;
+    //userID: number;
 
     @Column({nullable:false})
     role: string;
 
-    @OneToOne(()=> User, user => user.authorization)
-    @JoinColumn({ name: 'userID' })
+    @OneToOne(()=> User, user => user.authorization, { cascade: true, onDelete: 'CASCADE' })
+    @JoinColumn()
     user: User;
 
 }

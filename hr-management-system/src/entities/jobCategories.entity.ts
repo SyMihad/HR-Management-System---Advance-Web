@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { JobApplication } from "./jobApplication.entity";
 import { JobRequirments } from "./jobRequirments.entity";
 import { UserJobTable } from "./userJobTable.entity";
@@ -8,7 +8,7 @@ export class JobCategories{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({nullable:false})
+    @Column({nullable:true})
     Name: string;
 
     @OneToOne(()=> JobApplication, jobApplication => jobApplication.jobCategories)
@@ -17,7 +17,7 @@ export class JobCategories{
     @OneToOne(()=> JobRequirments, jobRequirments => jobRequirments.jobCategories)
     jobRequirments: JobRequirments;
 
-    @OneToOne(()=> UserJobTable, userJobTable => userJobTable.user)
+    @OneToOne(()=> UserJobTable, userJobTable => userJobTable.jobCategory)
     userJobTable: UserJobTable;
 
 }

@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, JoinColumn, OneToMany, Unique, ManyToOne } from "typeorm";
 import { User } from "./user.entity";
 import { JobCategories } from "./jobCategories.entity";
 
@@ -7,18 +7,20 @@ export class UserJobTable{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({nullable:false})
-    UserID: number;
+    // @Column({nullable:false})
+    // userId: number;
 
-    @Column({nullable:false})
-    JobID: number;
+    // @Column({nullable:false})
+    // jobCategoryId: number;
 
-    @OneToOne(()=> User, user => user.userJobTable)
-    @JoinColumn({ name: "UserID" })
+    @ManyToOne(()=> User, user => user.userJobTable, { cascade: true, onDelete: 'CASCADE' })
+    //@JoinColumn({ name: "userId" })
+    @JoinColumn()
     user: User;
 
-    @OneToOne(()=> JobCategories, jobCategories => jobCategories.userJobTable)
-    @JoinColumn({ name: "JobID" })
-    jobCategories: JobCategories;
+    @ManyToOne(()=> JobCategories, jobCategories => jobCategories.userJobTable, { cascade: true, onDelete: 'CASCADE' })
+    //@JoinColumn({ name: "jobCategoryId" })
+    @JoinColumn()
+    jobCategory: JobCategories;
 
 }

@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from "typeorm";
 import { User } from "./user.entity";
 import { Organization } from "./organization.entity";
 
@@ -7,18 +7,20 @@ export class UserOrganizationTable{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({nullable:false})
-    UserID: number;
+    // @Column({nullable:false})
+    // UserID: number;
 
-    @Column({nullable:false})
-    OrgID: number;
+    // @Column({nullable:false})
+    // OrgID: number;
 
-    @OneToOne(()=> User, user => user.userOrganizationTable)
-    @JoinColumn({ name: "UserID" })
+    @ManyToOne(()=> User, user => user.userOrganizationTable, { cascade: true, onDelete: 'CASCADE' })
+    //@JoinColumn({ name: "UserID" })
+    @JoinColumn()
     user: User;
 
-    @OneToOne(()=> Organization, organization => organization.userOrganizationTable)
-    @JoinColumn({ name: "OrgID" })
+    @ManyToOne(()=> Organization, organization => organization.userOrganizationTable, { cascade: true, onDelete: 'CASCADE' })
+    //@JoinColumn({ name: "OrgID" })
+    @JoinColumn()
     organization: Organization;
 
 }
