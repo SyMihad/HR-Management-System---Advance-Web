@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from "typeorm";
 import { JobCategories } from "./jobCategories.entity";
 
 @Entity('JobRequirments')
@@ -12,8 +12,8 @@ export class JobRequirments{
     @Column({nullable:false})
     Description: string;
 
-    @Column({nullable:false})
-    JobID: number;
+    // @Column({nullable:false})
+    // JobID: number;
 
     @Column({nullable:false})
     SubmissionDate: Date;
@@ -24,8 +24,8 @@ export class JobRequirments{
     @Column({nullable:false})
     Status: string;
 
-    @OneToOne(()=> JobCategories, jobCategories => jobCategories.jobApplication)
-    @JoinColumn({ name: "JobID" })
+    @ManyToOne(()=> JobCategories, jobCategories => jobCategories.jobApplication)
+    @JoinColumn()
     jobCategories: JobCategories;
 
 }

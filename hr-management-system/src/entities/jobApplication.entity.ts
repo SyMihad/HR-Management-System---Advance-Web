@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, JoinColumn, ManyToOne } from "typeorm";
 import { JobCategories } from "./jobCategories.entity";
 
 @Entity('JobApplications')
@@ -21,14 +21,14 @@ export class JobApplication{
     @Column({nullable:false})
     UploadFileName: string;
 
-    @Column({nullable:false})
-    JobID: number;
+    // @Column({nullable:false})
+    // JobID: number;
 
     @Column({nullable:false})
     Status: string;
 
-    @OneToOne(()=> JobCategories, jobCategories => jobCategories.jobApplication)
-    @JoinColumn({ name: "JobID" })
+    @ManyToOne(()=> JobCategories, jobCategories => jobCategories.jobApplication)
+    @JoinColumn()
     jobCategories: JobCategories;
 
 }
