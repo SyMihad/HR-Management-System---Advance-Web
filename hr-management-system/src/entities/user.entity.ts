@@ -3,6 +3,7 @@ import { Authorization } from "./authorization.entity";
 import { DocumentTrack } from "./documentTrack.entity";
 import { UserJobTable } from "./userJobTable.entity";
 import { UserOrganizationTable } from "./userOrganizationTable.entity";
+import { NoticeTrack } from "./noticeTrack.entity";
 
 @Entity('Users')
 export class User{
@@ -38,5 +39,11 @@ export class User{
 
     @OneToOne(()=> UserOrganizationTable, userOrganizationTable => userOrganizationTable.user)
     userOrganizationTable: UserOrganizationTable;
+
+    @OneToMany(()=> NoticeTrack, NoticeTrack => NoticeTrack.sendFromUser)
+    noticeTrackFromUser: NoticeTrack[];
+
+    @OneToMany(()=> NoticeTrack, NoticeTrack => NoticeTrack.sendToUser)
+    noticeTrackToUser: NoticeTrack[];
 
 }
