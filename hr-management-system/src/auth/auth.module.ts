@@ -9,9 +9,20 @@ import { JobCategories } from 'src/entities/jobCategories.entity';
 import { UserOrganizationTable } from 'src/entities/userOrganizationTable.entity';
 import { UserJobTable } from 'src/entities/userJobTable.entity';
 
+import { JwtSecretTMP, JwtStrategy } from './jwt.strategy';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Authorization, Organization, JobCategories, UserOrganizationTable, UserJobTable])],
+  imports: [
+    TypeOrmModule.forFeature([User, Authorization, Organization, JobCategories, UserOrganizationTable, UserJobTable]),
+    PassportModule.register({ defaultStrategy: 'jwt', session: false }),
+    JwtModule.register({
+      secret: JwtSecretTMP,
+      signOptions: { expiresIn: '1h' },
+    }),
+  ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}

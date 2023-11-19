@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Authorization } from 'src/entities/authorization.entity';
 import { User } from 'src/entities/user.entity';
@@ -15,6 +15,8 @@ import { Console } from 'console';
 import { LoginDTO } from './dto/loginDTO';
 import { UpdateOrganizationDTO } from './dto/updateOrganizationDTO';
 import { UpdateSuperAdminDTO } from './dto/updateSuperAdminDTO';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -31,17 +33,21 @@ export class AuthService {
         @InjectRepository(UserOrganizationTable)
         private readonly userOrganizationTableRepo: Repository<UserOrganizationTable>,
         @InjectRepository(UserJobTable)
-        private readonly userJobTableRepo: Repository<UserJobTable>
+        private readonly userJobTableRepo: Repository<UserJobTable>,
+        private jwtService: JwtService
         ){}
 
         async createSuperAdmin(createUserDTO: CreateSuperAdminDTO){
+            const salt = await bcrypt.genSalt();
+            const hashedPass = await bcrypt.hash(createUserDTO.Password, salt);
+            
             const user1 = {
                 Name: createUserDTO.Name,
                 Email: createUserDTO.Email,
                 Gender: createUserDTO.Gender,
                 DOB: createUserDTO.DOB,
                 PhoneNum: createUserDTO.PhoneNum,
-                Password: createUserDTO.Password
+                Password: hashedPass
             }
             const user = await this.userRepo.save(user1);
             const auth1 = {
@@ -68,6 +74,9 @@ export class AuthService {
         }
 
         async createOrganization(createOrganizationDTO: CreateOrganizationDTO){
+            const salt = await bcrypt.genSalt();
+            createOrganizationDTO.Password = await bcrypt.hash(createOrganizationDTO.Password, salt);
+
             const org = await this.orgRepo.create(createOrganizationDTO);
             return await this.orgRepo.save(org);
         }
@@ -86,13 +95,17 @@ export class AuthService {
         }
 
         async createEmployee(createEmployeeDTO: CreateEmployeeDTO){
+            
+            const salt = await bcrypt.genSalt();
+            const hashedPass = await bcrypt.hash(createEmployeeDTO.Password, salt);
+
             const user1 = {
                 Name: createEmployeeDTO.Name,
                 Email: createEmployeeDTO.Email,
                 Gender: createEmployeeDTO.Gender,
                 DOB: createEmployeeDTO.DOB,
                 PhoneNum: createEmployeeDTO.PhoneNum,
-                Password: createEmployeeDTO.Password
+                Password: hashedPass
             }
             //const user = await this.userRepo.create(user1);
             const user = await this.userRepo.save(user1);
@@ -132,13 +145,18 @@ export class AuthService {
 
 
         async createManager(createManagerDTO: CreateEmployeeDTO){
+
+            const salt = await bcrypt.genSalt();
+            const hashedPass = await bcrypt.hash(createManagerDTO.Password, salt);
+
+
             const user1 = {
                 Name: createManagerDTO.Name,
                 Email: createManagerDTO.Email,
                 Gender: createManagerDTO.Gender,
                 DOB: createManagerDTO.DOB,
                 PhoneNum: createManagerDTO.PhoneNum,
-                Password: createManagerDTO.Password
+                Password: hashedPass
             }
             
             const user = await this.userRepo.save(user1);
@@ -177,26 +195,50 @@ export class AuthService {
             return "Manager Created";
         }
 
+        async getUserFromId(userId: number){
+            return await this.userRepo.findOne({where: {id: userId}});
+        }
+
         async login(loginDTO: LoginDTO){
             const user = await this.userRepo.findOne({where: {Email: loginDTO.Email}});
-
+            //console.log(user);
+            //console.log(user);
+            // if(user.Password !== loginDTO.Password){
+            //     throw new UnauthorizedException();
+            //     //return user;
+            // }
             console.log(user);
-            if(user.Password == loginDTO.Password){
-                return "Logged In";
+            const isMatch = await bcrypt.compare(loginDTO.Password, user.Password);
+            console.log(isMatch);
+            if(!isMatch){
+                throw new UnauthorizedException();
             }
 
-            return "False";
+            const playload = { sub: user.id, username: user.Name };
+            //console.log(playload);
+            const token = await this.jwtService.sign(playload);
+            //console.log(token);
+            return {
+                access_token: token
+            };
+            
         }
+
+
 
         async loginOrganization(loginDTO: LoginDTO){
             const user = await this.orgRepo.findOne({where: {Email: loginDTO.Email}});
 
-            console.log(user);
-            if(user.Password == loginDTO.Password){
-                return "Logged In";
+            //console.log(user);
+            const isMatch = await bcrypt.compare(loginDTO.Password, user.Password);
+            // if(user.Password == loginDTO.Password){
+            //     return "Logged In";
+            // }
+            if(!isMatch){
+                throw new UnauthorizedException();
             }
 
-            return "False";
+            return "Logged In";
         }
 
 

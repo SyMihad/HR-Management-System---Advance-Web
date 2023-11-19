@@ -9,12 +9,6 @@ export class SecureDocument{
     @Column({nullable:false})
     DocumentName: string;
 
-    @Column({nullable:false})
-    UploadDate: Date;
-
-    @Column({nullable:false})
-    HashKey: string;
-
     @OneToMany(()=> DocumentTrack, documentTrack => documentTrack.secureDocument)
     documentTracks: DocumentTrack[];
 

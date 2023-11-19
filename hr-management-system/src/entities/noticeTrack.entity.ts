@@ -23,11 +23,11 @@ export class NoticeTrack{
     @JoinColumn()
     noticeDescription: NoticeDescription;
 
-    @ManyToOne(()=> User, User => User.noticeTrackFromUser)
+    @ManyToOne(()=> User, User => User.noticeTrackFromUser, { cascade: true, onDelete: 'CASCADE' })
     @JoinColumn({ name: "SendFromUserID" })
     sendFromUser: User;
 
-    @ManyToOne(()=> User, User => User.noticeTrackToUser)
+    @ManyToOne(()=> User, User => User.noticeTrackToUser, { cascade: true, onDelete: 'CASCADE' })
     @JoinColumn({ name: "SendToUserID" })
     sendToUser: User;
 

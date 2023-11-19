@@ -7,18 +7,18 @@ export class DocumentTrack{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({nullable:false})
-    DocID: number;
+    // @Column({nullable:false})
+    // DocID: number;
 
-    @Column({nullable:false})
-    UserID: number;
+    // @Column({nullable:false})
+    // UserID: number;
 
     @ManyToOne(()=> User, user => user.documentTracks)
-    @JoinColumn({ name: "UserID"})
+    @JoinColumn()
     user : User;
 
     @ManyToOne(()=> SecureDocument, secureDocument => secureDocument.documentTracks)
-    @JoinColumn({ name: "DocID"})
+    @JoinColumn()
     secureDocument : SecureDocument;
 
 }
