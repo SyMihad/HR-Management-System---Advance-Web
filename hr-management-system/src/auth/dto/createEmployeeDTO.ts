@@ -22,4 +22,6 @@ export class CreateEmployeeDTO{
 
     @IsString()
     JobCategory: string;
+
+    OrgID: number;
 }

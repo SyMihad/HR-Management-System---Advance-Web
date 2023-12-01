@@ -42,7 +42,7 @@ export class AuthController {
     return this.authService.showProfile(id);
   }
 
-  @UseGuards(JwtGuard)
+  //@UseGuards(JwtGuard)
   @Post('createOrganization')
   createOrganization(@Body() createOrganizationDTO: CreateOrganizationDTO){
     return this.authService.createOrganization(createOrganizationDTO);
@@ -93,10 +93,19 @@ export class AuthController {
     return token;
   }
 
+  @UseGuards(JwtGuard)
+  @Get('showOwnProfile')
+  showOwnProfile(@Req() req){
+    const user = req.user;
+    //const data = this.authService.getUserFromId(user.id);
+    return this.authService.getUserFromId(user.id);
+  }
+
   @Get('logout')
   async logout(@Res({ passthrough: true }) res) {
     res.cookie('user_token', '', { expires: new Date(Date.now()) });
-    return {};
+    const msg = "Logout Sucessful";
+    return msg;
   }
 
   @UseGuards(JwtGuard)

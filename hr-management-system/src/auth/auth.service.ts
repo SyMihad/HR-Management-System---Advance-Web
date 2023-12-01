@@ -128,7 +128,7 @@ export class AuthService {
             //const userJobTable = await this.userJobTableRepo.create(userJob);
             const userJobTable = await this.userJobTableRepo.save(userJob);
 
-            const org = await this.orgRepo.findOne({where: {id: 1}});
+            const org = await this.orgRepo.findOne({where: {id: createEmployeeDTO.OrgID}});
 
             const userOrg = {
                 user: user,
@@ -177,7 +177,7 @@ export class AuthService {
 
             const userJobTable = await this.userJobTableRepo.save(userJob);
 
-            const org = await this.orgRepo.findOne({where: {id: 1}});
+            const org = await this.orgRepo.findOne({where: {id: createManagerDTO.OrgID}});
 
             const userOrg = {
                 user: user,
