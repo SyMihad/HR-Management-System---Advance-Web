@@ -37,6 +37,10 @@ export class JobService {
         return await this.jobRequirmentsRepo.findOne({where: {id: id}});
     }
 
+    async deleteJobPost(id: number){
+        return await this.jobRequirmentsRepo.delete(id);
+    }
+
     async updateJobPost(id: number, updateJobRequirmentsDTO: UpdateJobRequirmentsDTO){
         return await this.jobRequirmentsRepo.update(id, updateJobRequirmentsDTO);
     }
