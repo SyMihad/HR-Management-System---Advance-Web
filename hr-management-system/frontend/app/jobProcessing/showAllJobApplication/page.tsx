@@ -21,7 +21,11 @@ const ViewJobApplications = () => {
   useEffect(() => {
     const fetchJobApplications = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/job/showAllJobApplication');
+        const response = await axios.get('http://localhost:3001/job/showAllJobApplication',{
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          }},);
         setJobApplications(response.data);
       } catch (error) {
         console.error('Error fetching job applications', error);

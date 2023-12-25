@@ -1,13 +1,36 @@
 'use client'
+import axios from 'axios';
 import { useState } from 'react';
+// import { cookies } from 'next/headers';
+import Cookies from 'js-cookie';
 
 const Login = () => {
   const [Email, setEmail] = useState('');
   const [Password, PetPassword] = useState('');
 
   const handleLogin = async () => {
+    try {
+      const role = await axios.post('http://localhost:3001/auth/login', {
+        Email,
+        Password,
+      },{
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        }},);
+
+      // Retrieve the token from the cookie set by the backend
+      const token = Cookies.get('user_token');
+      console.log(Cookies.get())
+      console.log('token: ', token);
+      console.log('role' , role.data);
+      console.log('Logging in with:', { Email, Password });
+
+      // Proceed with token-based authentication (e.g., redirect to protected areas)
+    } catch (error) {
+      // Handle login errors (e.g., display error messages)
+    }
     // Add your authentication logic here, e.g., send a request to your NestJS backend
-    console.log('Logging in with:', { Email, Password });
   };
 
   return (

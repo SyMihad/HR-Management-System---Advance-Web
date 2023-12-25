@@ -44,7 +44,7 @@ export class JobController {
     return this.jobService.createJobApplication(createJobApplicationDTO);
   }
 
-  //@UseGuards(JwtGuard)
+  @UseGuards(JwtGuard)
   @Get('showAllJobApplication')
   showAllJobApplication(){
     return this.jobService.showAllJobApplication();

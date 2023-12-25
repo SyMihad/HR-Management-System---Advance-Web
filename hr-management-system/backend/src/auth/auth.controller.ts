@@ -83,14 +83,15 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDTO: LoginDTO, @Res({ passthrough: true }) res){
-    const token = await this.authService.login(loginDTO);
+    const value = await this.authService.login(loginDTO);
+    const token = value.access_token;
     // console.log(token.access_token);
     //const value = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjY3LCJ1c2VybmFtZSI6Ik1paGFkIiwiaWF0IjoxNjk5Nzk3NTgwLCJleHAiOjE2OTk4MDExODB9.dCfCYzdk_duhEWPJ3GDrdVBxN3ovEIyeJgfa2DoCS6Y";
-    res.cookie('user_token', token.access_token , {
+    res.cookie('user_token', token , {
       expires: new Date(Date.now() + 3600000),
     });
     
-    return token;
+    return value.role;
   }
 
   @UseGuards(JwtGuard)

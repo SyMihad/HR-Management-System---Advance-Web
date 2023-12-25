@@ -200,7 +200,7 @@ export class AuthService {
         }
 
         async login(loginDTO: LoginDTO){
-            const user = await this.userRepo.findOne({where: {Email: loginDTO.Email}});
+            const user = await this.userRepo.findOne({where: {Email: loginDTO.Email}, relations: {authorization: true}});
             //console.log(user);
             //console.log(user);
             // if(user.Password !== loginDTO.Password){
@@ -219,7 +219,8 @@ export class AuthService {
             const token = await this.jwtService.sign(playload);
             //console.log(token);
             return {
-                access_token: token
+                access_token: token,
+                role: user.authorization.role
             };
             
         }
