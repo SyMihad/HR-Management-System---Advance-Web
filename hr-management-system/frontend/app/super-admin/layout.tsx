@@ -1,7 +1,19 @@
+'use client'
 import React from 'react';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 
 function SuperAdminLayout<T extends React.ReactNode>({ children }: { children: T }) {
+  const router = useRouter();
+
+  function handleLogout() {
+    Cookies.remove('user_token');
+    router.push('/');
+  //localStorage.removeItem('user_token'); // If you also stored it in local storage
+  // Redirect to login or a public page
+}
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       <header className="bg-white border-b px-4 py-6 flex items-center justify-between">
@@ -12,6 +24,12 @@ function SuperAdminLayout<T extends React.ReactNode>({ children }: { children: T
         <aside className="bg-gray-700 text-white px-4 py-6 flex flex-col justify-between w-64">
           <ul className="space-y-4">
             <li>
+            <Link
+                href="/super-admin"
+                className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
+              >
+                Dashboard
+              </Link>
               <Link
                 href="/super-admin/create-super-admin"
                 className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
@@ -38,6 +56,7 @@ function SuperAdminLayout<T extends React.ReactNode>({ children }: { children: T
             <li>
               <button
                 className="block w-full py-2 px-4 text-white hover:text-gray-300 transition duration-150 ease-in-out"
+                onClick={() => handleLogout()}
               >
                 Logout
               </button>

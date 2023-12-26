@@ -24,6 +24,9 @@ export default function LoginSelection() {
             Organization
           </button>
         </Link>
+        <p className="text-center text-black text-xs">
+          Do not have an account? <Link href="/signup-organization" className=' text-white'>Register</Link> | Go Back to <Link href="/" className=' text-white'>Home</Link>
+        </p>
       </div>
     </div>
   );

@@ -82,13 +82,15 @@ const OrganizationSignup: React.FC<OrganizationSignupProps> = () => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
         </div>
-        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Sign Up
-        </button>
+        <div className='flex items-center justify-center'>
+          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Sign Up
+          </button>
+        </div>
       </form>
 
       <p className="text-center text-black text-xs">
-        Already have an account? <Link href="/organization-login" className=' text-white'>Sign in</Link>
+        Already have an account? <Link href="/organization-login" className=' text-white'>Sign in</Link> | Go Back to <Link href="/" className=' text-white'>Home</Link>
       </p>
     </div>
   );

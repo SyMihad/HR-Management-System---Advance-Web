@@ -4,6 +4,7 @@ import { useState } from 'react';
 // import { cookies } from 'next/headers';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const Login = () => {
   const [Email, setEmail] = useState('');
@@ -37,7 +38,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center from-sky-500 to-indigo-500 bg-gradient-to-r justify-center min-h-screen">
+    <div className="flex items-center from-sky-500 to-indigo-500 bg-gradient-to-r flex-col justify-center min-h-screen">
       <div className="w-full max-w-md">
         <form
           className=" bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
@@ -80,9 +81,18 @@ const Login = () => {
               Log In
             </button>
           </div>
+          
         </form>
       </div>
+      
+      <div className=' flex items-center justify-center '>
+      <p className="text-center text-black text-xs">
+        | Go Back to <Link href="/" className=' text-white'>Home</Link> |
+      </p>
+      </div>
+      
     </div>
+    
   );
 };
 
