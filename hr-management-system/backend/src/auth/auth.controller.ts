@@ -19,6 +19,7 @@ export class AuthController {
     ) {
   }
 
+  @UseGuards(JwtGuard)
   @Post('createSuperAdmin')
   createSuperAdmin(@Body() createUserDTOAuth: CreateSuperAdminDTO){
     return this.authService.createSuperAdmin(createUserDTOAuth);
@@ -28,6 +29,12 @@ export class AuthController {
   @Put('updateSuperAdmin/:id')
   updateSuperAdmin(@Param('id') id: number, @Body() updateSuperAdminDTO: UpdateSuperAdminDTO){
     return this.authService.updateSuperAdmin(id, updateSuperAdminDTO);
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('allSuperAdmin')
+  allSuperAdmin(){
+    return this.authService.allSuperAdmin();
   }
 
   @UseGuards(JwtGuard)

@@ -73,6 +73,16 @@ export class AuthService {
             return await this.userRepo.findOne({where: {id: id}});
         }
 
+        async allSuperAdmin(){
+            // const auth = this.authRepo.findOne({where: {role: 'Super_Admin'}});
+            // return await this.userRepo.find({where: {authorization : auth}})
+            return await this.userRepo
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.authorization', 'authorization')
+      .where('authorization.role = :role', { role: 'Super_Admin' })
+      .getMany();
+        }
+
         async createOrganization(createOrganizationDTO: CreateOrganizationDTO){
             const salt = await bcrypt.genSalt();
             createOrganizationDTO.Password = await bcrypt.hash(createOrganizationDTO.Password, salt);
