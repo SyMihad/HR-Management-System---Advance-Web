@@ -25,4 +25,10 @@ export class NoticeboardController {
     const user = req.user;
     return this.noticeboardService.viewAllNotice(user.id);
   }
+
+  @Get('trackAllNotice')
+  trackAllNotice(@Req() req){
+    const user = req.user;
+    return this.noticeboardService.trackAllNotice(user.id);
+  }
 }

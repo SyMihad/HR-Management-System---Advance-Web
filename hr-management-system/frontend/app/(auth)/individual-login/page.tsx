@@ -31,6 +31,9 @@ const Login = () => {
       if(role.data == "Super_Admin"){
         router.push('/super-admin');
       }
+      if(role.data == "Manager"){
+        router.push('/manager');
+      }
 
     } catch (error) {
       

@@ -54,4 +54,8 @@ export class NoticeboardService {
     async viewAllNotice(id: number){
         return await this.noticeTrackRepo.find({where: {SendToUserID: id}, relations: {noticeDescription: true}});
     }
+
+    async trackAllNotice(id: number){
+        return await this.noticeTrackRepo.find({where: {SendFromUserID: id}, relations: {noticeDescription: true}});
+    }
 }

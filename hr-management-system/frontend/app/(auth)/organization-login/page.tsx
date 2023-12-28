@@ -1,13 +1,27 @@
 'use client'
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Cookies from 'js-cookie';
 
 const Login = () => {
   const [Email, setEmail] = useState('');
   const [Password, PetPassword] = useState('');
+  const router = useRouter();
 
   const handleLogin = async () => {
-    // Add your authentication logic here, e.g., send a request to your NestJS backend
-    console.log('Logging in with:', { Email, Password });
+    try {
+      const response = await axios.post('http://localhost:3001/auth/login/organization', {
+        Email,
+        Password,
+      });
+      Cookies.set('orgID', response.data);
+      console.log('org id: ', response.data);
+      router.push('/organization');
+
+    } catch (error) {
+      
+    }
   };
 
   return (

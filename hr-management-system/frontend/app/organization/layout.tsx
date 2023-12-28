@@ -4,11 +4,11 @@ import Link from 'next/link';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 
-function SuperAdminLayout<T extends React.ReactNode>({ children }: { children: T }) {
+function OrganizationLayout<T extends React.ReactNode>({ children }: { children: T }) {
   const router = useRouter();
 
   function handleLogout() {
-    Cookies.remove('user_token');
+    Cookies.remove('orgID');
     router.push('/');
 }
 
@@ -23,34 +23,29 @@ function SuperAdminLayout<T extends React.ReactNode>({ children }: { children: T
           <ul className="space-y-4">
             <li>
             <Link
-                href="/super-admin"
+                href="/organization"
                 className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
               >
                 Dashboard
               </Link>
+            </li>
+            <li>
               <Link
-                href="/super-admin/create-super-admin"
+                href="/organization/create-manager"
                 className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
               >
-                Create Super Admin
+                Create Manager
               </Link>
             </li>
             <li>
               <Link
-                href="/super-admin/all-Super-Admins"
+                href="/organization/all-managers"
                 className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
               >
-                All Super Admins
+                Show All Managers
               </Link>
             </li>
-            <li>
-              <Link
-                href="/super-admin/view-profile"
-                className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
-              >
-                View Profile
-              </Link>
-            </li>
+            
             <li>
               <button
                 className="block w-full py-2 px-4 text-white hover:text-gray-300 transition duration-150 ease-in-out"
@@ -74,4 +69,4 @@ function SuperAdminLayout<T extends React.ReactNode>({ children }: { children: T
   );
 }
 
-export default SuperAdminLayout;
+export default OrganizationLayout;

@@ -45,7 +45,7 @@ export default function Home() {
       </div>
 
       <nav className="fixed top-0 right-0 p-4">
-        <Link href="/jobPostProcessing/apply">
+        <Link href="/job/allPost">
           <button className="text-white bg-green-500 hover:bg-green-600 font-bold rounded-lg px-4 py-2 shadow-md">
             Apply for Job
           </button>

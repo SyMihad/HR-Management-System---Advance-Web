@@ -100,7 +100,12 @@ export class AuthService {
         }
 
         async createJobCategory(createJobCategoryDTO: CreateJobCategoryDTO){
-            const jobCategory = await this.jobCategoriesRepo.create(createJobCategoryDTO);
+            const org = await this.orgRepo.findOne({where: {id: createJobCategoryDTO.OrgID}});
+            const jobCat = {
+                Name: createJobCategoryDTO.Name,
+                organization: org
+            }
+            const jobCategory = await this.jobCategoriesRepo.create(jobCat);
             return await this.jobCategoriesRepo.save(jobCategory);
         }
 
@@ -249,8 +254,61 @@ export class AuthService {
                 throw new UnauthorizedException();
             }
 
-            return "Logged In";
+            return user.id;
         }
+
+        async findOrg(id: number){
+            const org = await this.orgRepo.findOne({where: {id: id}});
+            return org;
+        }
+
+        async allJobCategories(id: number){
+            const org = await this.orgRepo.findOne({where: {id: id}});
+            const jobCat = await this.jobCategoriesRepo.find({where: {organization: org}});
+            return jobCat;
+        }
+
+        async getAllManagers(id: number) {
+            const jobCategoryName = 'Manager';
+          
+            const users = await this.userRepo
+              .createQueryBuilder('user')
+              .innerJoin('user.userOrganizationTable', 'userOrg')
+              .innerJoin('userOrg.organization', 'organization')
+              .innerJoin('user.userJobTable', 'userJob')
+              .innerJoin('userJob.jobCategory', 'jobCategory')
+              .where('organization.id = :organizationId', { organizationId: id })
+              .andWhere('jobCategory.Name = :jobCategoryName', { jobCategoryName: jobCategoryName })
+              .getMany();
+          
+            return users;
+          }
+
+          async getEmployeeDetails(id: number){
+            const user = await this.userRepo
+            .createQueryBuilder('user')
+            .leftJoinAndSelect('user.userOrganizationTable', 'userOrg')
+            .leftJoinAndSelect('userOrg.organization', 'organization')
+            .where('user.id = :userId', { userId: id })
+            .getOne();
+
+            return user;
+          }
+
+          async getAllEmployees(id: number) {
+            const jobCategoryName = 'Manager';
+          
+            const users = await this.userRepo
+              .createQueryBuilder('user')
+              .innerJoin('user.userOrganizationTable', 'userOrg')
+              .innerJoin('userOrg.organization', 'organization')
+              .where('organization.id = :organizationId', { organizationId: id })
+              .getMany();
+          
+            return users;
+          }
+          
+          
 
 
 }

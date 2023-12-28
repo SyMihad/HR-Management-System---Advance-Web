@@ -8,8 +8,8 @@ export class CreateNoticeDTO{
     Description: string;
 
     @IsNumber()
-    SendFromUserId: number;
+    SendToUserId: number
 
     @IsNumber()
-    SendToUserId: number
+    SendFromUserId?: number
 }

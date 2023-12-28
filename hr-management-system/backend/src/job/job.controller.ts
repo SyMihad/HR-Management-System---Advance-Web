@@ -80,5 +80,10 @@ export class JobController {
     return this.jobService.showAllSelected();
   }
 
+  @Get('showAllAvailableJobApplication')
+  showAllAvailableJobApplication(){
+    return this.jobService.showAllAvailableJobApplication();
+  }
+
   
 }

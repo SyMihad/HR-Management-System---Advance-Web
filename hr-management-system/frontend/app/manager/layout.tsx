@@ -9,6 +9,7 @@ function SuperAdminLayout<T extends React.ReactNode>({ children }: { children: T
 
   function handleLogout() {
     Cookies.remove('user_token');
+    Cookies.remove('orgID');
     router.push('/');
 }
 
@@ -23,32 +24,50 @@ function SuperAdminLayout<T extends React.ReactNode>({ children }: { children: T
           <ul className="space-y-4">
             <li>
             <Link
-                href="/super-admin"
+                href="/manager"
                 className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
               >
                 Dashboard
               </Link>
+            </li>
+            <li>
               <Link
-                href="/super-admin/create-super-admin"
+                href="/manager/create-employee"
                 className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
               >
-                Create Super Admin
+                Create Employee
               </Link>
             </li>
             <li>
               <Link
-                href="/super-admin/all-Super-Admins"
+                href="/manager/all-employees"
                 className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
               >
-                All Super Admins
+                All Employees
               </Link>
             </li>
             <li>
               <Link
-                href="/super-admin/view-profile"
+                href="/manager/jobPostProcessing"
                 className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
               >
-                View Profile
+                Job Post Processing
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/manager/jobProcessing"
+                className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
+              >
+                Job Processing
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/manager/noticeboard"
+                className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
+              >
+                Noticeboard
               </Link>
             </li>
             <li>

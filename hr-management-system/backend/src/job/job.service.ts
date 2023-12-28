@@ -97,5 +97,9 @@ export class JobService {
         return await this.jobApplicationRepo.find({where: {Status: "Selected"}});
     }
 
+    async showAllAvailableJobApplication(){
+        return await this.jobRequirmentsRepo.find({where: {Status: "Open"}});
+    }
+
     
 }

@@ -37,7 +37,7 @@ export class AuthController {
     return this.authService.allSuperAdmin();
   }
 
-  @UseGuards(JwtGuard)
+  //@UseGuards(JwtGuard)
   @Delete('deleteUser/:id')
   deleteUser(@Param('id') id: number){
     return this.authService.deleteUser(id);
@@ -67,7 +67,7 @@ export class AuthController {
     return this.authService.deleteOrganization(id);
   }
 
-  @UseGuards(JwtGuard)
+  //@UseGuards(JwtGuard)
   @Post('createJobCategory')
   createJobCategory(@Body() createJobCategoryDTO: CreateJobCategoryDTO){
     return this.authService.createJobCategory(createJobCategoryDTO);
@@ -130,4 +130,33 @@ export class AuthController {
   loginOrganization(@Body() loginDTO: LoginDTO){
     return this.authService.loginOrganization(loginDTO);
   }
+
+  @Get('findOrg/:id')
+  findOrg(@Param('id') id: number){
+    return this.authService.findOrg(id);
+  }
+
+  @Get('allJobCategories/:id')
+  allJobCategories(@Param('id') id: number){
+    return this.authService.allJobCategories(id);
+  }
+
+  @Get('getAllManagers/:id')
+  getAllManagers(@Param('id') id: number){
+    return this.authService.getAllManagers(id);
+  }
+
+  @Get('getAllEmployees/:id')
+  getAllEmployees(@Param('id') id: number){
+    return this.authService.getAllEmployees(id);
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('getEmployeeDetails')
+  getEmployeeDetails(@Req() req){
+    const user = req.user;
+    return this.authService.getEmployeeDetails(user.id);
+  }
+
+  
 }

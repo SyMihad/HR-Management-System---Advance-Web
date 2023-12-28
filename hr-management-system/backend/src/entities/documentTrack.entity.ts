@@ -13,7 +13,7 @@ export class DocumentTrack{
     // @Column({nullable:false})
     // UserID: number;
 
-    @ManyToOne(()=> User, user => user.documentTracks)
+    @ManyToOne(()=> User, user => user.documentTracks, { cascade: true, onDelete: 'CASCADE' })
     @JoinColumn()
     user : User;
 
