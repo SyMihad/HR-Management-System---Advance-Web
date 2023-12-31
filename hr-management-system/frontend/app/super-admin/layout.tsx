@@ -3,8 +3,10 @@ import React from 'react';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import useAuth from '../useAuth';
 
 function SuperAdminLayout<T extends React.ReactNode>({ children }: { children: T }) {
+  useAuth();
   const router = useRouter();
 
   function handleLogout() {

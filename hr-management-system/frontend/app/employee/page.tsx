@@ -1,7 +1,6 @@
 'use client'
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { useUser } from './UserContext';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import useAuth from '../useAuth';

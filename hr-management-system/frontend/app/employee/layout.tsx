@@ -1,19 +1,49 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import useAuth from '../useAuth';
+import axios from 'axios';
 
-function ManagerLayout<T extends React.ReactNode>({ children }: { children: T }) {
-  useAuth();
+type Notice = {
+  filter(arg0: (notice: any) => boolean): unknown;
+  id: number;
+  SendToUserID: number;
+  Status: string;
+  noticeDescription: {
+    id: number;
+    Title: string;
+    Description: string;
+  };
+};
+
+function EmployeeLayout<T extends React.ReactNode>({ children }: { children: T }) {
+  const [unseenNoticeCount, setUnseenNoticeCount] = React.useState<number>(0);
+  const [notice, setNotice] = useState<Notice>();
   const router = useRouter();
+
+  const fetchNotices = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/noticeboard/viewAllNotice',{withCredentials: true,headers: {'Content-Type': 'application/json',}});
+      console.log(response.data);
+      const unseenNotices = response.data.filter((notice: { Status: string; }) => notice.Status === 'Unseen');
+      setUnseenNoticeCount(unseenNotices.length);
+      console.log(unseenNoticeCount);
+    } catch (error) {
+      console.error('Error fetching notices', error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchNotices();
+  }, []);
 
   function handleLogout() {
     Cookies.remove('user_token');
     Cookies.remove('orgID');
     router.push('/');
-}
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
@@ -25,8 +55,8 @@ function ManagerLayout<T extends React.ReactNode>({ children }: { children: T })
         <aside className="bg-gray-700 text-white px-4 py-6 flex flex-col justify-between w-64">
           <ul className="space-y-4">
             <li>
-            <Link
-                href="/manager"
+              <Link
+                href="/employee"
                 className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
               >
                 Dashboard
@@ -34,42 +64,13 @@ function ManagerLayout<T extends React.ReactNode>({ children }: { children: T })
             </li>
             <li>
               <Link
-                href="/manager/create-employee"
-                className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
-              >
-                Create Employee
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/manager/all-employees"
-                className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
-              >
-                All Employees
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/manager/jobPostProcessing"
-                className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
-              >
-                Job Post Processing
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/manager/jobProcessing"
-                className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
-              >
-                Job Processing
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/manager/noticeboard"
+                href="/employee/noticeboard"
                 className="block py-2 px-4 hover:bg-gray-600 transition duration-150 ease-in-out"
               >
                 Noticeboard
+                {unseenNoticeCount > 0 && (
+                  <span className="text-red-500"> ({unseenNoticeCount} Unseen)</span>
+                )}
               </Link>
             </li>
             <li>
@@ -95,4 +96,4 @@ function ManagerLayout<T extends React.ReactNode>({ children }: { children: T })
   );
 }
 
-export default ManagerLayout;
+export default EmployeeLayout;
